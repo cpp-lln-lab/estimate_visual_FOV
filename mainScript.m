@@ -9,7 +9,6 @@
 % This can prove useful when the FOV is partly obstructed (like in an fMRI)
 % experiment and hard to measure.
 
-
 % Clear all the previous stuff
 clc;
 if ~ismac
@@ -27,116 +26,90 @@ cfg = setParameters;
 
 % Safety loop: close the screen if code crashes
 try
-    
+
     %% Init the experiment
     [cfg] = initPTB(cfg);
-    
+
+    % step size to move and scale the field of view rectangle
+    cfg.stepSize = floor(cfg.screen.winHeight * 0.05);
+
     disp(cfg);
-    
+
     % Show experiment instruction
     standByScreen(cfg);
-    
+
     % prepare the KbQueue to collect responses
     getResponse('init', cfg.keyboard.responseBox, cfg);
-    
+
     getResponse('start', cfg.keyboard.responseBox);
-    
+
+    % draw the field of view rectangle centered on the screen
+    % after that it will not be centered anymore.
     centerOnScreen = true;
     fov = drawFieldOfVIew(cfg, centerOnScreen);
     cfg.screen.effectiveFieldOfView = fov;
     Screen('flip', cfg.screen.win);
-    
-    while 1
-        
+    centerOnScreen = false;
+
+    keepGoing = true;
+
+    % we let the user update the position of the screen and we let the
+    % exerimenter press space when they are done.
+    while keepGoing
+
         % Check for experiment abortion from operator
         checkAbort(cfg, cfg.keyboard.keyboard);
-        
+
         % draw rectangle on screen
-        centerOnScreen = false;
         drawFieldOfVIew(cfg, centerOnScreen);
         Screen('flip', cfg.screen.win);
-        
+
         % collect response and update FOV value
-        getOnlyPress = 1;
         responseEvents = getResponse('check', ...
-            cfg.keyboard.responseBox, ...
-            cfg, ...
-            getOnlyPress);
-        
-        fov = cfg.screen.effectiveFieldOfView;
-        
-        if isfield(responseEvents, 'keyName')
-            
-            for iEvent = 1:size(responseEvents, 1)
-                
-                switch responseEvents(iEvent).keyName
-                    
-                    % move right
-                    case cfg.keyboard.keyToMoveRight
-                        fov([1 3]) = fov([1 3]) + cfg.stepSize;
-                        
-                    % move left
-                    case cfg.keyboard.keyToMoveLeft
-                        fov([1 3]) = fov([1 3]) - cfg.stepSize;
-                    
-                    % move up
-                    case cfg.keyboard.keyToMoveUp
-                        fov([2 4]) = fov([2 4]) + cfg.stepSize;
-                        
-                    % move down    
-                    case cfg.keyboard.keyToMoveDown
-                        fov([2 4]) = fov([2 4]) - cfg.stepSize; 
-                        
-                    % scale up
-                    case cfg.keyboard.keyToScaleUp
-                        fov([1 2]) = fov([1 2]) - cfg.stepSize;
-                        fov([3 4]) = fov([3 4]) + cfg.stepSize;
-                        
-                    % scale down
-                    case cfg.keyboard.keyToScaleDown
-                        fov([1 2]) = fov([1 2]) + cfg.stepSize;
-                        fov([3 4]) = fov([3 4]) - cfg.stepSize;
-                        
-                end
+                                     cfg.keyboard.responseBox, ...
+                                     cfg);
 
-            end
-        end
-        
-        % ensure that the rectangle does not go outside the window
-        fov(fov<0) = 0;
-        
-        if fov(3) > cfg.screen.winWidth
-            fov(3) = cfg.screen.winWidth;
-        end
-        
-        if fov(4) > cfg.screen.winHeight
-            fov(4) = cfg.screen.winHeight;
-        end
-        
-        % ensures that rectangle values are possible
-        % top-left values must be smaller than bottom-right
-        if fov(1) > fov(3)
-            fov(1) = fov(3) - 5;
-        end
-        if fov(2) > fov(4)
-            fov(2) = fov(4) - 5;
-        end
-
-        % reallocat back to cfg for reuse by drawFieldOfVIew
-        cfg.screen.effectiveFieldOfView = fov;
+        [cfg, keepGoing] = updateFov(cfg, responseEvents);
 
     end
-    
+
+    fov = cfg.screen.effectiveFieldOfView;
+
+    fprintf(1, [ ...
+                'Field of view in pixel:\n' ...
+                ' top left: %i %i\n', ...
+                ' bottom right: %i %i\n\n'], ...
+            fov(1), fov(2), ...
+            fov(3), fov(4));
+
+    fieldOfView.widthPix = fov(3) - fov(1);
+    fieldOfView.heightPix = fov(4) - fov(2);
+    fprintf(1, [ ...
+                'Field of view in pixel:\n', ...
+                ' width: %i\n', ...
+                ' height: %i\n\n'], ...
+            fieldOfView.widthPix, ...
+            fieldOfView.heightPix);
+
+    fieldOfView = pixToDeg('widthPix', fieldOfView, cfg);
+    fieldOfView = pixToDeg('heightPix', fieldOfView, cfg);
+    fprintf(1, [ ...
+                'Field of view in degrees of visual angle:\n', ...
+                ' width: %i\n', ...
+                ' height: %i\n\n'], ...
+            fieldOfView.widthDegVA, ...
+            fieldOfView.heightDegVA);
+
     getResponse('stop', cfg.keyboard.responseBox);
     getResponse('release', cfg.keyboard.responseBox);
-    
+
     farewellScreen(cfg);
-    
+
     cleanUp();
-    
+
 catch
-    
+
     cleanUp();
     psychrethrow(psychlasterror);
-    
+
 end

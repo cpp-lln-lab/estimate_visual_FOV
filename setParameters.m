@@ -26,34 +26,49 @@ function [cfg] = setParameters()
     % Keyboards
     cfg = setKeyboards(cfg);
 
-    cfg.screen.effectiveFieldOfView = [0 0 800 600]; % in pixels 
-    
-    % step size to move and scale the field of view rectangle
-    cfg.stepSize = 10;
+    cfg.screen.effectiveFieldOfView = [0 0 800 600]; % in pixels
 
     % Instruction
-    cfg.task.instruction = 'Move and scale red rectangle till it fills your field of view.';
-
-
+    cfg.task.instruction = [ ...
+                            'Move and scale red rectangle to fill your field of view:\n\n', ...
+                            '  - Right hand:\n', ...
+                            '    - index: move right\n', ...
+                            '    - major: move left\n', ...
+                            '    - ring finger: move up\n', ...
+                            '    - little: move down\n\n', ...
+                            '  - Left hand:\n', ...
+                            '    - index: scale up\n', ...
+                            '    - major: scale down\n\n', ...
+                            'Let us know when you are done.'];
 
 end
 
 function cfg = setKeyboards(cfg)
-    
+
     cfg.keyboard.escapeKey = 'ESCAPE';
     cfg.keyboard.responseKey = { ...
                                 'r', 'g', 'y', 'b', ...
                                 'd', 'n', 'z', 'e', ...
-                                't'};
-                            
+                                't', 'space'};
+
+    % Right hand
+
+    % index
     cfg.keyboard.keyToMoveUp = 'r';
+    % major
     cfg.keyboard.keyToMoveDown = 'g';
+    % ring finger
     cfg.keyboard.keyToMoveRight = 'y';
+    % little finger
     cfg.keyboard.keyToMoveLeft = 'b';
-    
+
+    % Left hand
+
+    % index
     cfg.keyboard.keyToScaleUp = 'd';
-    cfg.keyboard.keyToScaleDown = 'n';    
-                            
+    % major
+    cfg.keyboard.keyToScaleDown = 'n';
+
     cfg.keyboard.keyboard = [];
     cfg.keyboard.responseBox = [];
 
