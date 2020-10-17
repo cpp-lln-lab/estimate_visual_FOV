@@ -26,19 +26,15 @@ function [cfg] = setParameters()
     % Keyboards
     cfg = setKeyboards(cfg);
 
-    cfg.screen.effectiveFieldOfView = [0 0 500 300]; % in pixels 
+    cfg.screen.effectiveFieldOfView = [0 0 800 600]; % in pixels 
+    
+    % step size to move and scale the field of view rectangle
+    cfg.stepSize = 10;
 
     % Instruction
     cfg.task.instruction = 'Move and scale red rectangle till it fills your field of view.';
 
-    % Fixation cross (in pixels)
-    cfg.fixation.type = 'cross';
-    cfg.fixation.colorTarget = cfg.color.red;
-    cfg.fixation.color = cfg.color.white;
-    cfg.fixation.width = .25;
-    cfg.fixation.lineWidthPix = 3;
-    cfg.fixation.xDisplacement = 0;
-    cfg.fixation.yDisplacement = 0;
+
 
 end
 
@@ -49,6 +45,15 @@ function cfg = setKeyboards(cfg)
                                 'r', 'g', 'y', 'b', ...
                                 'd', 'n', 'z', 'e', ...
                                 't'};
+                            
+    cfg.keyboard.keyToMoveUp = 'r';
+    cfg.keyboard.keyToMoveDown = 'g';
+    cfg.keyboard.keyToMoveRight = 'y';
+    cfg.keyboard.keyToMoveLeft = 'b';
+    
+    cfg.keyboard.keyToScaleUp = 'd';
+    cfg.keyboard.keyToScaleDown = 'n';    
+                            
     cfg.keyboard.keyboard = [];
     cfg.keyboard.responseBox = [];
 
