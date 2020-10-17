@@ -1,18 +1,21 @@
-%
-% 1 - Check if version requirements
-% are satisfied and the packages are
-% are installed/loaded:
-%   Octave > 4
-%       - image
-%       - optim
-%       - struct
-%       - statistics
-%
-%   MATLAB >= R2015b
-%
-% 2 - Add project to the O/M path
+% (C) Copyright 2020 Agah Karakuzu
+% (C) Copyright 2019 CPP lab developpers
 
-function initEnv
+function initEnv()
+    % initEnv()
+    %
+    % 1 - Check if version requirements
+    % are satisfied and the packages are
+    % are installed/loaded:
+    %   Octave > 4
+    %       - image
+    %       - optim
+    %       - struct
+    %       - statistics
+    %
+    %   MATLAB >= R2015b
+    %
+    % 2 - Add project to the O/M path
 
     octaveVersion = '4.0.3';
     matlabVersion = '8.6.0';
@@ -56,8 +59,8 @@ function initEnv
 
     if numel(dir(libDirectory)) <= 2 % Means that the external is empty
         error(['Git submodules are not cloned!', ...
-              'Try this in your terminal:', ...
-              ' git submodule update --recursive ']);
+               'Try this in your terminal:', ...
+               ' git submodule update --recursive ']);
     else
         addDependencies();
     end
@@ -101,6 +104,6 @@ function addDependencies()
     pth = fileparts(mfilename('fullpath'));
     addpath(genpath(fullfile(pth, 'lib', 'CPP_BIDS', 'src')));
     addpath(genpath(fullfile(pth, 'lib', 'CPP_PTB', 'src')));
-    addpath(fullfile(pth, 'subfun'));
+    addpath(fullfile(pth, 'src'));
 
 end
