@@ -10,7 +10,7 @@ function [cfg] = setParameters()
     cfg = checkCppPtbCfg(cfg);
 
     %% Debug mode settings
-
+    cfg.debug.do = 1;
     cfg.debug.smallWin = false; % To test on a part of the screen, change to 1
     cfg.debug.transpWin = false; % To test with trasparent full size screen
 
@@ -27,7 +27,8 @@ function [cfg] = setParameters()
     % Keyboards
     cfg = setKeyboards(cfg);
 
-    cfg.screen.effectiveFieldOfView = [0 0 800 600]; % in pixels
+    % starting values in pixels
+    cfg.screen.effectiveFieldOfView = [0 0 800 600];
 
     if cfg.userIsExperimenter
 
@@ -38,8 +39,7 @@ function [cfg] = setParameters()
     else
 
         % Instruction
-        cfg.task.instruction = [ ...
-                                'Move and scale red rectangle to fill your field of view:\n\n', ...
+        cfg.task.instruction = ['Move and scale red rectangle to fill your field of view:\n\n', ...
                                 '  - Right hand:\n', ...
                                 '    - index: move right\n', ...
                                 '    - major: move left\n', ...
@@ -57,8 +57,7 @@ end
 function cfg = setKeyboards(cfg)
 
     cfg.keyboard.escapeKey = 'ESCAPE';
-    cfg.keyboard.responseKey = { ...
-                                'r', 'g', 'y', 'b', ...
+    cfg.keyboard.responseKey = {'r', 'g', 'y', 'b', ...
                                 'd', 'n', 'z', 'e', ...
                                 'LeftArrow', 'RightArrow', ...
                                 'UpArrow', 'DownArrow', ...
@@ -111,6 +110,7 @@ function cfg = setMonitor(cfg)
     cfg.color.background = cfg.color.black;
     cfg.text.color = cfg.color.white;
 
+    % MAKE SURE THE VALUES BELOW MATCH THOSE USED IN THE OTHER EXPERIMENTS
     % Monitor parameters
     cfg.screen.monitorWidth = 50; % in cm
     cfg.screen.monitorDistance = 40; % distance from the screen in cm

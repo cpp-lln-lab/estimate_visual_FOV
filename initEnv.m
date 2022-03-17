@@ -104,6 +104,7 @@ function addDependencies()
     pth = fileparts(mfilename('fullpath'));
     addpath(genpath(fullfile(pth, 'lib', 'CPP_BIDS', 'src')));
     addpath(genpath(fullfile(pth, 'lib', 'CPP_PTB', 'src')));
+    addpath(genpath(fullfile(pth, 'lib', 'CPP_PTB', 'lib')));
     addpath(fullfile(pth, 'src'));
 
 end

@@ -13,16 +13,11 @@ an fMRI) experiment and hard to measure.
 ├── .git
 ├── .github  # where you put anything github related
 │   └── workflows # where you define your github actions
-│       └── moxunit.yml # a yaml file that defines a github action
-├── lib # where you put the code from external libraries (mathworks website or other github repositories)
-│   └── README.md
+├── lib # where you put the code from external libraries
 ├── src # where you put your code
-│   ├── README.md
-│   └── miss_hit.cfg
 ├── tests # where you put your unit tests
 |   ├── README.md
 |   └── miss_hit.cfg
-├── .travis.yml # where you define the continuous integration done by Travis
 ├── LICENSE
 ├── README.md
 ├── miss_hit.cfg # configuration file for the matlab miss hit linter
@@ -32,6 +27,7 @@ an fMRI) experiment and hard to measure.
 ## How to install and run
 
 Install
+
 ```
 git clone --recurse-submodules https://github.com/cpp-lln-lab/estimate_visual_FOV.git
 ```
@@ -39,6 +35,30 @@ git clone --recurse-submodules https://github.com/cpp-lln-lab/estimate_visual_FO
 Set parameters in `setParameters.m`
 
 Run
+
 ```
 mainScript
+```
+
+## Experimenter control
+
+When run in `cfg.userIsExperimenter = true` mode, the experimenter can use the
+keys
+
+- `LeftArrow` to move the FOV left
+- `RightArrow` to move the FOV right move the FOV
+- `UpArrow` to move the FOV up
+- `DownArrow` to move the FOV down
+- `p` to scale the FOV up
+- `m` to scale the FOV down
+
+Otherwise check the `cfg.keyboard` set up in `setParameters`.
+## IMPORTANT
+
+Make sure that the values you use in this script are the same as the one you
+will use in the experiment where you need to adapt the FOV.
+
+```matlab
+    cfg.screen.monitorWidth = FIXME % in cm
+    cfg.screen.monitorDistance = FIXME; % distance from the screen in cm
 ```

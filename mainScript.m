@@ -22,7 +22,7 @@ initEnv();
 % set and load all the parameters to run the experiment
 cfg = setParameters;
 
-%%  Experiment
+%% Experiment
 
 % Safety loop: close the screen if code crashes
 try
