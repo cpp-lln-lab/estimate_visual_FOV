@@ -85,12 +85,12 @@ try
 
     % in pixels
     fov = cfg.screen.effectiveFieldOfView;
-    printResults(fov, 'pixel')
+    printResults(fov, 'pixel');
 
     % in degrees of visual angles
     cfg.screen = pixToDeg('effectiveFieldOfView', cfg.screen, cfg);
     fovDegVA = cfg.screen.effectiveFieldOfViewDegVA;
-    printResults(fov, 'degrees of visual angles')
+    printResults(fov, 'degrees of visual angles');
 
 catch
 
