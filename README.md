@@ -5,6 +5,8 @@ that the user can move and rescale till it feels their whole field of view (FOV)
 on the screen. This can prove useful when the FOV is partly obstructed (like in
 an fMRI) experiment and hard to measure.
 
+![](./images/fov.svg)
+
 ## Content
 
 ```bash
