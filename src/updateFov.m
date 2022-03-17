@@ -25,11 +25,11 @@ function [cfg, keepGoing] = updateFov(cfg, responseEvents)
 
                     % move up
                 case cfg.keyboard.keyToMoveUp
-                    fov([2 4]) = fov([2 4]) + cfg.stepSize;
+                    fov([2 4]) = fov([2 4]) - cfg.stepSize;
 
                     % move down
                 case cfg.keyboard.keyToMoveDown
-                    fov([2 4]) = fov([2 4]) - cfg.stepSize;
+                    fov([2 4]) = fov([2 4]) + cfg.stepSize;
 
                     % scale up
                 case cfg.keyboard.keyToScaleUp
