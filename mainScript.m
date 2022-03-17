@@ -22,7 +22,7 @@ initEnv();
 % set and load all the parameters to run the experiment
 cfg = setParameters;
 
-%%  Experiment
+%% Experiment
 
 % Safety loop: close the screen if code crashes
 try
@@ -33,7 +33,7 @@ try
     % step size to move and scale the field of view rectangle
     cfg.stepSize = floor(cfg.screen.winHeight * 0.05);
 
-    disp(cfg);
+    unfold(cfg);
 
     % Show experiment instruction
     standByScreen(cfg);
@@ -73,39 +73,45 @@ try
 
     end
 
-    fov = cfg.screen.effectiveFieldOfView;
-
-    fprintf(1, [ ...
-                'Field of view in pixel:\n' ...
-                ' top left: %i %i\n', ...
-                ' bottom right: %i %i\n\n'], ...
-            fov(1), fov(2), ...
-            fov(3), fov(4));
-
-    fieldOfView.widthPix = fov(3) - fov(1);
-    fieldOfView.heightPix = fov(4) - fov(2);
-    fprintf(1, [ ...
-                'Field of view in pixel:\n', ...
-                ' width: %i\n', ...
-                ' height: %i\n\n'], ...
-            fieldOfView.widthPix, ...
-            fieldOfView.heightPix);
-
-    fieldOfView = pixToDeg('widthPix', fieldOfView, cfg);
-    fieldOfView = pixToDeg('heightPix', fieldOfView, cfg);
-    fprintf(1, [ ...
-                'Field of view in degrees of visual angle:\n', ...
-                ' width: %i\n', ...
-                ' height: %i\n\n'], ...
-            fieldOfView.widthDegVA, ...
-            fieldOfView.heightDegVA);
-
+    %% clean up and close
     getResponse('stop', cfg.keyboard.responseBox);
     getResponse('release', cfg.keyboard.responseBox);
 
     farewellScreen(cfg);
 
     cleanUp();
+
+    %% Print output to screen
+
+    % in pixels
+    fov = cfg.screen.effectiveFieldOfView;
+    printResults(fov, 'pixel');
+
+    % in degrees of visual angles
+    cfg.screen = pixToDeg('effectiveFieldOfView', cfg.screen, cfg);
+    fovDegVA = cfg.screen.effectiveFieldOfViewDegVA;
+    printResults(fovDegVA, 'degrees of visual angles');
+
+    fprintf(1, ['\n\n' repmat('-', 1, 80) '\n']);
+    fprintf(1, 'SET UP TO COPY \n\n');
+
+    [displacement.x, displacement.y] = fovCenterRelativeCoord(cfg, fov);
+    displacement = pixToDeg('x', displacement, cfg);
+    displacement = pixToDeg('y', displacement, cfg);
+
+    fprintf(1, ['%% fixation cross displacement in degrees of visual angles:\n\n' ...
+                ' cfg.fixation.xDisplacement = %f;\n', ...
+                ' cfg.fixation.yDisplacement = %f;\n\n'], ...
+            displacement.xDegVA, ...
+            displacement.yDegVA);
+
+    fprintf(1, ['%% set up configuration:\n\n' ...
+                ' cfg.testingDevice = ''%s'';\n', ...
+                ' cfg.screen.monitorDistance = %f;\n', ...
+                ' cfg.screen.monitorWidth = %f;\n\n'], ...
+            cfg.testingDevice, ...
+            cfg.screen.monitorDistance, ...
+            cfg.screen.monitorWidth);
 
 catch
 

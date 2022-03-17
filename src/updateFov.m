@@ -1,10 +1,17 @@
-% (C) Copyright 2020 CPP lab developpers
-
 function [cfg, keepGoing] = updateFov(cfg, responseEvents)
-
+    %
+    % checks responses and updates FOV accordingly
+    %
+    % USAGE::
+    %
+    %   [cfg, keepGoing] = updateFov(cfg, responseEvents)
+    %
     % TODO will check if the space bar has been pressed too.
     % this makes this function do too many things so this could be factored out
     % later
+    %
+    % (C) Copyright 2020 CPP lab developpers
+
     keepGoing = true;
 
     fov = cfg.screen.effectiveFieldOfView;
