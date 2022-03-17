@@ -62,3 +62,44 @@ will use in the experiment where you need to adapt the FOV.
     cfg.screen.monitorWidth = FIXME % in cm
     cfg.screen.monitorDistance = FIXME; % distance from the screen in cm
 ```
+
+
+## Output example
+
+```matlab
+--------------------------------------------------------------------------------
+Field of view in PIXEL:
+ top left: 795 162
+ bottom right: 1481 648
+
+Field of view in PIXEL:
+ width: 486
+ height: 686
+
+
+
+--------------------------------------------------------------------------------
+Field of view in DEGREES OF VISUAL ANGLES:
+ top left: 795 162
+ bottom right: 1481 648
+
+Field of view in DEGREES OF VISUAL ANGLES:
+ width: 486
+ height: 686
+
+
+
+--------------------------------------------------------------------------------
+SET UP TO COPY
+
+% fixation cross displacement in degrees of visual angles:
+
+ cfg.fixation.xDisplacement = 0.102482;
+ cfg.fixation.yDisplacement = -0.519732;
+
+% set up configuration:
+
+ cfg.testingDevice = 'mri';
+ cfg.screen.monitorDistance = 95.000000;
+ cfg.screen.monitorWidth = 25.000000;
+```
