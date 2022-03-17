@@ -69,23 +69,23 @@ will use in the experiment where you need to adapt the FOV.
 ```matlab
 --------------------------------------------------------------------------------
 Field of view in PIXEL:
- top left: 795 162
- bottom right: 1481 648
+ top left: 1137 219
+ bottom right: 1595 477
 
 Field of view in PIXEL:
- width: 486
- height: 686
+ width: 258
+ height: 458
 
 
 
 --------------------------------------------------------------------------------
 Field of view in DEGREES OF VISUAL ANGLES:
- top left: 795 162
- bottom right: 1481 648
+ top left: 8.32304 1.60312
+ bottom right: 11.6757 3.49172
 
 Field of view in DEGREES OF VISUAL ANGLES:
- width: 486
- height: 686
+ width: 1.8886
+ height: 3.35264
 
 
 
@@ -94,8 +94,8 @@ SET UP TO COPY
 
 % fixation cross displacement in degrees of visual angles:
 
- cfg.fixation.xDisplacement = 0.102482;
- cfg.fixation.yDisplacement = -0.519732;
+ cfg.fixation.xDisplacement = 1.771482;
+ cfg.fixation.yDisplacement = -0.936982;
 
 % set up configuration:
 

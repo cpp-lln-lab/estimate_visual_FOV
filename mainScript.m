@@ -90,7 +90,7 @@ try
     % in degrees of visual angles
     cfg.screen = pixToDeg('effectiveFieldOfView', cfg.screen, cfg);
     fovDegVA = cfg.screen.effectiveFieldOfViewDegVA;
-    printResults(fov, 'degrees of visual angles');
+    printResults(fovDegVA, 'degrees of visual angles');
 
     fprintf(1, ['\n\n' repmat('-', 1, 80) '\n']);
     fprintf(1, 'SET UP TO COPY \n\n');
