@@ -33,7 +33,7 @@ try
     % step size to move and scale the field of view rectangle
     cfg.stepSize = floor(cfg.screen.winHeight * 0.05);
 
-    disp(cfg);
+    unfold(cfg);
 
     % Show experiment instruction
     standByScreen(cfg);
@@ -73,6 +73,17 @@ try
 
     end
 
+    %% clean up and close
+    getResponse('stop', cfg.keyboard.responseBox);
+    getResponse('release', cfg.keyboard.responseBox);
+
+    farewellScreen(cfg);
+
+    cleanUp();
+
+    %% Print output to screen
+
+    % in pixels
     fov = cfg.screen.effectiveFieldOfView;
 
     fprintf(1, ['Field of view in pixel:\n' ...
@@ -81,6 +92,13 @@ try
             fov(1), fov(2), ...
             fov(3), fov(4));
 
+    fprintf(1, ['Field of view in pixel:\n', ...
+                ' width: %i\n', ...
+                ' height: %i\n\n'], ...
+            fovWidth(fov), ...
+            fovHeight(fov));
+
+    % in degrees of visual angles
     cfg.screen = pixToDeg('effectiveFieldOfView', cfg.screen, cfg);
     fovDegVA = cfg.screen.effectiveFieldOfViewDegVA;
 
@@ -90,29 +108,12 @@ try
             fovDegVA(1), fovDegVA(2), ...
             fovDegVA(3), fovDegVA(4));
 
-    fieldOfView.widthPix = fov(3) - fov(1);
-    fieldOfView.heightPix = fov(4) - fov(2);
-    fprintf(1, ['Field of view in pixel:\n', ...
-                ' width: %i\n', ...
-                ' height: %i\n\n'], ...
-            fieldOfView.widthPix, ...
-            fieldOfView.heightPix);
-
-    fieldOfView = pixToDeg('widthPix', fieldOfView, cfg);
-    fieldOfView = pixToDeg('heightPix', fieldOfView, cfg);
     fprintf(1, [ ...
                 'Field of view in degrees of visual angle:\n', ...
                 ' width: %i\n', ...
                 ' height: %i\n\n'], ...
-            fieldOfView.widthDegVA, ...
-            fieldOfView.heightDegVA);
-
-    getResponse('stop', cfg.keyboard.responseBox);
-    getResponse('release', cfg.keyboard.responseBox);
-
-    farewellScreen(cfg);
-
-    cleanUp();
+            fovWidth(fovDegVA), ...
+            fovHeight(fovDegVA));
 
 catch
 
