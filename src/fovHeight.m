@@ -6,6 +6,6 @@ function height = fovHeight(fov)
     %
     % (C) Copyright 2022 CPP lab developpers
 
-    height = fov(3) - fov(1);
+    height = fov(4) - fov(2);
 
 end
